@@ -36,7 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.activate = activate;
 exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
-const http = __importStar(require("http"));
+const https = __importStar(require("https"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
 // Tree Data Provider Class
@@ -78,18 +78,20 @@ function setupMessageHandlers(panel) {
 }
 function handleChatMessage(panel, prompt) {
     try {
-        const req = http.request({
+        const req = https.request(
+        // Use https
+        {
             hostname: "ollama.vishnuprasadkuntar.me",
-            port: 443,
             path: "/api/generate",
             method: "POST",
             headers: { "Content-Type": "application/json" },
-        }, (res) => processResponse(panel, res));
+        }, (res) => processResponse(panel, res) // Ensure this handles streamed responses correctly
+        );
         req.on("error", (error) => handleRequestError(panel, error));
         req.write(JSON.stringify({
             model: "deepseek-r1:8b",
             prompt: prompt,
-            stream: true,
+            stream: true, // Ensure processResponse handles streamed responses properly
         }));
         req.end();
     }

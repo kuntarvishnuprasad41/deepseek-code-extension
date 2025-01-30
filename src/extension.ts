@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import * as https from "https";
 import * as http from "http";
 import * as path from "path";
 import * as fs from "fs";
@@ -64,25 +65,27 @@ function setupMessageHandlers(panel: vscode.WebviewPanel) {
 
 function handleChatMessage(panel: vscode.WebviewPanel, prompt: string) {
   try {
-    const req = http.request(
+    const req = https.request(
+      // Use https
       {
         hostname: "ollama.vishnuprasadkuntar.me",
-        port: 443,
         path: "/api/generate",
         method: "POST",
         headers: { "Content-Type": "application/json" },
       },
-      (res) => processResponse(panel, res)
+      (res) => processResponse(panel, res) // Ensure this handles streamed responses correctly
     );
 
     req.on("error", (error) => handleRequestError(panel, error));
+
     req.write(
       JSON.stringify({
         model: "deepseek-r1:8b",
         prompt: prompt,
-        stream: true,
+        stream: true, // Ensure processResponse handles streamed responses properly
       })
     );
+
     req.end();
   } catch (e: any) {
     handleRequestError(panel, e);
