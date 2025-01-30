@@ -3,8 +3,38 @@ import * as http from "http";
 import * as path from "path";
 import * as fs from "fs";
 
+// Tree Data Provider Class
+class DepSeekTreeDataProvider
+  implements vscode.TreeDataProvider<vscode.TreeItem>
+{
+  private _onDidChangeTreeData: vscode.EventEmitter<
+    vscode.TreeItem | undefined
+  > = new vscode.EventEmitter<vscode.TreeItem | undefined>();
+  readonly onDidChangeTreeData: vscode.Event<vscode.TreeItem | undefined> =
+    this._onDidChangeTreeData.event;
+
+  getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
+    return element;
+  }
+
+  getChildren(element?: vscode.TreeItem): Thenable<vscode.TreeItem[]> {
+    if (!element) {
+      // Return root items in the sidebar
+      return Promise.resolve([
+        new vscode.TreeItem("Item 1"),
+        new vscode.TreeItem("Item 2"),
+      ]);
+    }
+    return Promise.resolve([]);
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
   console.log('Extension "depseek-kuvi41" is now active!');
+
+  // Register the tree data provider
+  const treeDataProvider = new DepSeekTreeDataProvider();
+  vscode.window.registerTreeDataProvider("depseek-sidebar", treeDataProvider);
 
   const disposable = vscode.commands.registerCommand(
     "depseek-kuvi41.start",

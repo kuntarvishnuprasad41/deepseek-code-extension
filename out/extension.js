@@ -39,8 +39,29 @@ const vscode = __importStar(require("vscode"));
 const http = __importStar(require("http"));
 const path = __importStar(require("path"));
 const fs = __importStar(require("fs"));
+// Tree Data Provider Class
+class DepSeekTreeDataProvider {
+    _onDidChangeTreeData = new vscode.EventEmitter();
+    onDidChangeTreeData = this._onDidChangeTreeData.event;
+    getTreeItem(element) {
+        return element;
+    }
+    getChildren(element) {
+        if (!element) {
+            // Return root items in the sidebar
+            return Promise.resolve([
+                new vscode.TreeItem("Item 1"),
+                new vscode.TreeItem("Item 2"),
+            ]);
+        }
+        return Promise.resolve([]);
+    }
+}
 function activate(context) {
     console.log('Extension "depseek-kuvi41" is now active!');
+    // Register the tree data provider
+    const treeDataProvider = new DepSeekTreeDataProvider();
+    vscode.window.registerTreeDataProvider("depseek-sidebar", treeDataProvider);
     const disposable = vscode.commands.registerCommand("depseek-kuvi41.start", () => {
         const panel = vscode.window.createWebviewPanel("deepchat", "Deepseek Chat", vscode.ViewColumn.One, { enableScripts: true });
         panel.webview.html = getWebviewContent(context);
