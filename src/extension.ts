@@ -66,8 +66,8 @@ function handleChatMessage(panel: vscode.WebviewPanel, prompt: string) {
   try {
     const req = http.request(
       {
-        hostname: "192.168.100.10",
-        port: 11434,
+        hostname: "ollama.vishnuprasadkuntar.me",
+        port: 443,
         path: "/api/generate",
         method: "POST",
         headers: { "Content-Type": "application/json" },
