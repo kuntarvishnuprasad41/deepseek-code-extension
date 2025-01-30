@@ -48,6 +48,8 @@ export function activate(context: vscode.ExtensionContext) {
                       text: json.response,
                       done: json.done,
                     });
+
+                    console.log(json);
                   } catch (e) {
                     console.error("Error parsing JSON:", e);
                   }
@@ -70,7 +72,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             req.write(
               JSON.stringify({
-                model: "deepseek",
+                model: "deepseek-r1:8b",
                 prompt: userPrompt,
                 stream: true,
               })

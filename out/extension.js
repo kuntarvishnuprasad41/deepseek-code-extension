@@ -71,6 +71,7 @@ function activate(context) {
                                         text: json.response,
                                         done: json.done,
                                     });
+                                    console.log(json);
                                 }
                                 catch (e) {
                                     console.error("Error parsing JSON:", e);
@@ -90,7 +91,7 @@ function activate(context) {
                         });
                     });
                     req.write(JSON.stringify({
-                        model: "deepseek",
+                        model: "deepseek-r1:8b",
                         prompt: userPrompt,
                         stream: true,
                     }));
