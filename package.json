@@ -1,7 +1,7 @@
 {
   "name": "depseek-kuvi41",
-  "displayName": "deepseek ",
-  "description": "deepseek chatbot for vscode",
+  "displayName": "Deepseek",
+  "description": "Deepseek chatbot for vscode",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.96.0"
@@ -9,25 +9,37 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
-  "main": "./out/extension.js",
+  "activationEvents": [
+    "onCommand:depseek-kuvi41.start",
+    "onView:depseek-sidebar"
+  ],
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "depseek-sidebar-container",
+          "title": "Deepseek Chat",
+          "icon": "media/icon.png"   
+        }
+      ]
+    },
+    "views": {
+      "depseek-sidebar-container": [
+        {
+          "id": "depseek-sidebar",
+          "name": "Depseek Chat",
+          "when": "explorerViewletVisible"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "depseek-kuvi41.start",
         "title": "Deepseek-Cb"
       }
-    ],
-    "views": {
-      "explorer": [
-        {
-          "id": "depseek-sidebar",
-          "name": "Deepseek Sidebar",
-          "type": "tree"
-        }
-      ]
-    }
+    ]
   },
+  "main": "./out/extension.js",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
