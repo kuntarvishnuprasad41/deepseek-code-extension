@@ -83,8 +83,9 @@ function processResponse(panel, res) {
         const lines = buffer.split("\n");
         buffer = lines.pop() || "";
         lines.forEach((line) => {
-            if (!line.trim())
-                return;
+            if (!line.trim()) {
+                return {};
+            }
             try {
                 const json = JSON.parse(line);
                 panel.webview.postMessage({
