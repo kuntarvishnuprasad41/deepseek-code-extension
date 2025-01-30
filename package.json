@@ -17,7 +17,16 @@
         "command": "depseek-kuvi41.start",
         "title": "Deepseek-Cb"
       }
-    ]
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "depseek-sidebar",
+          "name": "Deepseek Sidebar",
+          "type": "tree"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
